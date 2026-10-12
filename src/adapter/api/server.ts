@@ -3,15 +3,18 @@ import { serve } from "@hono/node-server";
 import Provider from "../../infrastructure/config/provider";
 import UserHandler from "./handler/user/handler";
 import { getenv } from "../../infrastructure/util/common.helper";
+import { secureHeaders } from "hono/secure-headers";
 
-const appServer = new Hono();
+const app = new Hono();
 const userHandler = UserHandler(Provider());
 
-appServer.get('/health', c => c.text("OK"));
-appServer.route("/user", userHandler);
+app.use(secureHeaders());
+
+app.get('/health', c => c.text("OK"));
+app.route("/user", userHandler);
 
 const server = serve({
-    fetch: appServer.fetch,
+    fetch: app.fetch,
     port: getenv('APP_PORT')
 });
 
