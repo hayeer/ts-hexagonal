@@ -7,9 +7,13 @@ import { getenv } from "../../infrastructure/util/common.helper";
 const appServer = new Hono();
 const userHandler = UserHandler(Provider());
 
+appServer.get('/health', c => c.text("OK"));
 appServer.route("/user", userHandler);
 
-const server = serve(appServer);
+const server = serve({
+    fetch: appServer.fetch,
+    port: getenv('APP_PORT')
+});
 
 console.info(`🚀 ${getenv("APP_NAME")} running on port ${getenv("APP_PORT")}`);
 

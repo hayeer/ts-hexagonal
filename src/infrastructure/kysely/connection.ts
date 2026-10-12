@@ -1,10 +1,10 @@
-import { Kysely, MysqlDialect } from "kysely";
+import { Kysely, PostgresDialect } from "kysely";
 import Database from "./schema";
 import dbCollection from "../config/database";
 import { getenv } from "../util/common.helper";
-import { createPool } from "mysql2";
+import { Pool } from "pg";
 
-let databases: Array<{name: string, db: Kysely<Database>}> = [];
+let databases: Array<{ name: string, db: Kysely<Database> }> = [];
 
 export default function KyselyAdapter() {
     if (databases.length === 0) {
@@ -13,8 +13,8 @@ export default function KyselyAdapter() {
             databases.push({
                 name: db.name,
                 db: new Kysely<Database>({
-                    dialect: new MysqlDialect({
-                        pool: createPool({
+                    dialect: new PostgresDialect({
+                        pool: new Pool({
                             database: db.config.database,
                             host: db.config.host,
                             port: db.config.port,
