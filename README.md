@@ -1,7 +1,7 @@
 # Typescript With Hexagonal Architecture
 
 ---
-Boilerplate that I use for TS backend service using hexagonal concept (port - adapter).
+Boilerplate for TS backend service using hexagonal concept (port - adapter).
 ---
 
 ## Project Structure
@@ -41,3 +41,9 @@ src/
 |   |-- util
 |   |   |-- common.helper.ts
 ```
+
+## Execution Flow
+
+The application enters through `./src/main.ts`, which invokes `./src/infrastructure/config/provider.ts` as a factory function to instantiate and register all concrete dependency implementations.
+
+Once initialized, incoming requests carrying this provider container are dispatched to `./src/adapter/api/server.ts`, where they are routed to their respective handlers. Each handler then executes the business logic by calling the associated service from the provider.
