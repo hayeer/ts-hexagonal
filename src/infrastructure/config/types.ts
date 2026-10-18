@@ -1,10 +1,8 @@
 export enum Environment {
-    DEV = 'development',
-    STG = 'staging',
-    PRD = 'production'
+    DEV = "development",
+    STG = "staging",
+    PRD = "production",
 }
-
-export type Maybe<T, R = null> = T | R;
 
 export type DBConfig = {
     name: string;
@@ -15,7 +13,7 @@ export type DBConfig = {
         username: string;
         password: string;
         database: string;
-    }
-}
+    };
+};
 
 export type DBCollection = (e: Environment) => Array<DBConfig>;
