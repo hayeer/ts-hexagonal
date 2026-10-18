@@ -2,7 +2,7 @@ import { Kysely } from "kysely";
 import { UserRepository } from "../../domain/user/port";
 import Database from "../../infrastructure/kysely/schema";
 import User from "../../domain/user/entity";
-import { Maybe } from "../../infrastructure/config/types";
+import { Maybe } from "../../domain/shared/types";
 
 export default function UserRepoAdapter(db: Kysely<Database>): UserRepository {
     return {

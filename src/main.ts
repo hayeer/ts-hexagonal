@@ -4,12 +4,11 @@ import KyselyAdapter from "./infrastructure/kysely/connection";
 import UserRepoAdapter from "./adapter/repository/user";
 import UserService from "./domain/user/services";
 import UUIDGen from "./adapter/shared/uuid";
-import PinoLogger from "./adapter/shared/pino.logger";
+import PinoLogger from "./adapter/shared/pino";
 
 function Provider() {
     const database = KyselyAdapter();
     const userRepo = UserRepoAdapter(database.getdb("default"));
-
     return {
         repo: {
             user: userRepo,
@@ -24,9 +23,9 @@ function Provider() {
     };
 }
 
-const Server = server(Provider());
-
 export type ServiceProvider = ReturnType<typeof Provider>;
+
+const Server = server(Provider());
 
 process.on("SIGINT", () => {
     Server.close();

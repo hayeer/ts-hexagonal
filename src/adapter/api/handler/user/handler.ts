@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { createUserInput } from "./dto";
-import { ServiceProvider } from "../../../../infrastructure/config/provider";
+import { ServiceProvider } from "../../../../main";
 
 export default function UserHandler(sp: ServiceProvider) {
     const app = new Hono();
