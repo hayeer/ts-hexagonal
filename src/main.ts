@@ -33,7 +33,8 @@ process.on("SIGINT", () => {
 });
 
 process.on("SIGTERM", () => {
-    Server.close((err) => {
+    Server.close(async (err) => {
+        await KyselyAdapter().close();
         if (err) {
             console.error(err);
             process.exit(1);
