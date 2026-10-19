@@ -1,29 +1,7 @@
 import "dotenv/config";
 import server from "./adapter/api/server";
 import KyselyAdapter from "./infrastructure/kysely/connection";
-import UserRepoAdapter from "./adapter/repository/user";
-import UserService from "./domain/user/services";
-import UUIDGen from "./adapter/shared/uuid";
-import PinoLogger from "./adapter/shared/pino";
-
-function Provider() {
-    const database = KyselyAdapter();
-    const userRepo = UserRepoAdapter(database.getdb("default"));
-    return {
-        repo: {
-            user: userRepo,
-        },
-        service: {
-            user: UserService(userRepo, UUIDGen()),
-        },
-        shared: {
-            idGenerator: UUIDGen(),
-            logger: PinoLogger(),
-        },
-    };
-}
-
-export type ServiceProvider = ReturnType<typeof Provider>;
+import Provider from "./bootstrap";
 
 const Server = server(Provider());
 

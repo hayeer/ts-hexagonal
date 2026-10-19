@@ -1,9 +1,9 @@
 import IdGeneratorPort from "../shared/id.gen";
 import User from "./entity";
 import USERERR from "./error";
-import { UserRepository } from "./port";
+import { UserRepositoryPort, UserServicePort } from "./port";
 
-export default function UserService(r: UserRepository, i: IdGeneratorPort) {
+export default function UserService(r: UserRepositoryPort, i: IdGeneratorPort): UserServicePort {
     return {
         find: async function (id: string): Promise<User> {
             const f = await r.findById(id);
@@ -13,16 +13,18 @@ export default function UserService(r: UserRepository, i: IdGeneratorPort) {
 
         create: async function (
             u: { username: string; password: string; fullname: string },
-        ): Promise<void> {
+        ): Promise<User> {
             const id = i.create();
-            await r.create({
+            const user: User = {
                 id,
                 username: u.username,
                 password: u.password,
                 realname: u.fullname,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-            });
+            }
+            await r.create(user);
+            return user;
         },
 
         update: async function (id: string, u: User): Promise<void> {

@@ -1,10 +1,10 @@
 import { Kysely } from "kysely";
-import { UserRepository } from "../../domain/user/port";
+import { UserRepositoryPort } from "../../domain/user/port";
 import Database from "../../infrastructure/kysely/schema";
 import User from "../../domain/user/entity";
 import { Maybe } from "../../domain/shared/types";
 
-export default function UserRepoAdapter(db: Kysely<Database>): UserRepository {
+export default function UserRepoAdapter(db: Kysely<Database>): UserRepositoryPort {
     return {
         findById: async function (id: string): Promise<Maybe<User>> {
             try {
